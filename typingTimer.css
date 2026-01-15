@@ -212,3 +212,8 @@ main {
     text-align: center;
   }
 }
+
+#userInput{
+    opacity: 0;
+}
+
