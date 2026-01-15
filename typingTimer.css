@@ -1,66 +1,214 @@
-/* General styles */
-body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #f5f5f5;
-  color: #333;
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
 }
 
-header {
-  padding: 1rem;
-  background: #fff;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
+  color: #f5f5f5;
+  min-height: 100vh;
+}
+
+/* ===== MAIN CONTAINER ===== */
+main {
+  width: 60%;
+  max-width: 900px;
+  min-height: 80vh;
+  margin: 40px auto;
+  padding: 25px 35px;
+  background-color: #3a3a3a;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* ===== HEADER ===== */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .top-header h1 {
+  font-weight: 500;
+  margin: 0;
+}
+
+.top-header h4 {
+  font-weight: 300;
+  opacity: 0.75;
   margin: 0;
 }
 
 .bottom-header {
   display: flex;
   justify-content: space-between;
-  margin-top: 1rem;
+  align-items: center;
+  margin-top: 15px;
+  gap: 15px;
 }
 
-.stats p, .difficulty p {
-  margin: 0.2rem 0;
+/* ===== STATS ===== */
+.stats {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
 }
 
-.difficulty button {
-  margin-right: 0.5rem;
-  padding: 0.3rem 0.7rem;
+.stats span {
+  font-size: 14px;
+  opacity: 0.85;
 }
 
-.typing-area {
-  padding: 1rem;
+/* ===== DIFFICULTY BUTTONS ===== */
+.difficulty {
+  display: flex;
+  gap: 10px;
 }
 
+.difficulty-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background-color: #4a4a4a;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.difficulty-btn:hover {
+  background-color: #6b6b6b;
+  transform: translateY(-1px);
+}
+
+/* ===== TEXT AREA ===== */
 .text-area {
-  min-height: 150px;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
+  height: 50vh;
+  margin-top: 30px;
+  text-align: center;
+  line-height: 1.7;
+  font-size: 18px;
+  opacity: 0.85;
+  overflow-y: auto;
+}
+
+/* ===== CHARACTER STATES ===== */
+.correct {
+  color: #22c55e;
+}
+
+.incorrect {
+  color: #ef4444;
+}
+
+.active {
+  border-bottom: 2px solid #9ca3af;
+}
+
+/* ===== RESTART ===== */
+.restart {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.restart button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  background-color: #4a4a4a;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.restart button:hover {
+  background-color: #6b6b6b;
+  transform: translateY(-1px);
+}
+
+/* ===== RESULTS SCREEN ===== */
+.results {
+  text-align: center;
+  animation: fadeInScale 0.5s ease forwards;
+}
+
+.results h2 {
+  margin-bottom: 15px;
+}
+
+.results p {
+  margin: 8px 0;
   font-size: 18px;
 }
 
-.text-area span.correct {
-  color: green;
+.new-best {
+  color: #22c55e;
+  font-weight: bold;
+  margin-top: 10px;
+  animation: pulse 1s infinite;
 }
 
-.text-area span.incorrect {
-  color: red;
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.text-area span.active {
-  text-decoration: underline;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
-/* Hidden input for mobile typing */
-#userInput {
-  position: absolute;
-  left: -9999px; /* Off-screen */
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+  main {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .top-header,
+  .bottom-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .stats {
+    gap: 15px;
+  }
+
+  .difficulty {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .text-area {
+    height: auto;
+    min-height: 35vh;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-area {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .difficulty-btn,
+  .restart button {
+    width: 100%;
+    text-align: center;
+  }
 }
