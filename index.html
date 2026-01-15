@@ -29,19 +29,23 @@
         <hr>
     </header>
     
-  <section class="typing-area">
-          <div class="text-area" id="textArea">
-            <h1>
-                Welcome!
-            </h1>
-            <p>Please select a difficulty level</p>
-        </div>
-        <hr>
-        <div class="restart">
-            <button id="restart">Restart Test</button>
-        </div>
-  </section>
+ <section class="typing-area">
+  <div class="text-area" id="textArea">
+    <h1>Welcome!</h1>
+    <p>Please select a difficulty level</p>
+  </div>
+
+  <!-- Hidden input to capture typing -->
+  <input type="text" id="userInput" autocomplete="off" autocorrect="off" spellcheck="false" />
+
+  <hr>
+  <div class="restart">
+      <button id="restart">Restart Test</button>
+  </div>
+</section>
+
     </main>
     <script src="typingTimer.js"></script>
 </body>
 </html>
+
