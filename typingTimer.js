@@ -4,191 +4,194 @@ const passage = {easy:["My favorite day is Sunday. It is the day I enjoy the mos
     hard:["On September 14 2024 at exactly 6 45 a.m. the city recorded its highest temperature of the year 41.7 degrees Celsius which shocked residents scientists and officials alike. According to Report No. 3.14 issued by the Climate Analysis Group Inc. this figure represented a 12.5 percent increase compared to the average recorded between 1990 and 2010 a period often described as the baseline era.The report stated that multiple factors contributed to this event including prolonged drought irregular wind patterns and excessive urban expansion especially in zones labeled A 1 B 3 and C 7. One expert Dr. Elena Morris PhD warned that if emissions are not reduced by at least 30 percent by 2030 the probability of similar events could rise to 78.9 percent or higher.Citizens responded with mixed reactions some called it a warning others dismissed it as coincidence. One resident stated This is not just weather it is a pattern while another replied Numbers can be misleading. Despite the debate one fact remains unchanged climate data when examined carefully tells a complex unsettling story filled with equations thresholds timelines and consequences that are increasingly difficult to ignore."]
 
 }
-// ---------------- STATE ----------------
-let currentDifficulty = null
-let currentPassage = ""
-let timerStarted = false
-let testEnded = false
-let timeLeft = 60
-let correctChars = 0
-let totalTypedChars = 0
-let currentIndex = 0
-let chars = []
 
-const personalBest = { easy: null, medium: null, hard: null }
+    // ---------------- STATE ----------------
+    let currentDifficulty = null
+    let currentPassage = ""
+    let timerStarted = false
+    let testEnded = false
+    let timeLeft = 60
+    let correctChars = 0
+    let totalTypedChars = 0
+    let currentIndex = 0
+    let chars = []
 
-// ---------------- STORAGE ----------------
-const savedBest = localStorage.getItem("typingPersonalBest")
-if (savedBest) Object.assign(personalBest, JSON.parse(savedBest))
+    const personalBest = { easy: null, medium: null, hard: null }
 
-// ---------------- DOM ----------------
-const personalBestDisplay = document.querySelector("#personalBest")
-const wpmDisplay = document.querySelector("#wpm")
-const accuracyDisplay = document.querySelector("#accuracy")
-const timerDisplay = document.querySelector("#timer")
-const textArea = document.querySelector("#textArea")
-const restart = document.querySelector("#restart")
-const difficultyContainer = document.querySelector(".difficulty")
+    // ---------------- STORAGE ----------------
+    const savedBest = localStorage.getItem("typingPersonalBest")
+    if (savedBest) Object.assign(personalBest, JSON.parse(savedBest))
 
-difficultyContainer.addEventListener("click", (e) => {
-  if (!e.target.classList.contains("difficulty-btn")) return
-  e.target.blur()
-  startNewTest(e.target.dataset.level)
-})
+    // ---------------- DOM ----------------
+    const personalBestDisplay = document.querySelector("#personalBest")
+    const wpmDisplay = document.querySelector("#wpm")
+    const accuracyDisplay = document.querySelector("#accuracy")
+    const timerDisplay = document.querySelector("#timer")
+    const textArea = document.querySelector("#textArea")
+    const restart = document.querySelector("#restart")
+    const difficultyContainer = document.querySelector(".difficulty")
+    const userInput = document.getElementById("userInput")
 
-// ---------------- START TEST ----------------
-function startNewTest(level) {
-  clearInterval(timeInterval)
+    // ---------------- START TEST ----------------
+    difficultyContainer.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("difficulty-btn")) return
+        e.target.blur()
+        startNewTest(e.target.dataset.level)
+    })
 
-  currentDifficulty = level
-  currentPassage = passage[level][0]
-  timerStarted = false
-  testEnded = false
-  timeLeft = 60
-  correctChars = 0
-  totalTypedChars = 0
-  currentIndex = 0
+    function startNewTest(level) {
+        clearInterval(timeInterval)
 
-  renderPassage()
-  chars[0].classList.add("active")
+        currentDifficulty = level
+        currentPassage = passage[level][0]
+        timerStarted = false
+        testEnded = false
+        timeLeft = 60
+        correctChars = 0
+        totalTypedChars = 0
+        currentIndex = 0
 
-  timerDisplay.textContent = timeLeft
-  wpmDisplay.textContent = 0
-  accuracyDisplay.textContent = "0%"
-  personalBestDisplay.textContent =
-    personalBest[level] ? `${personalBest[level]} WPM` : "-- WPM"
-}
+        renderPassage()
+        chars[0].classList.add("active")
 
-// ---------------- RENDER PASSAGE ----------------
-function renderPassage() {
-  textArea.innerHTML = ""
-  for (const char of currentPassage) {
-    const span = document.createElement("span")
-    span.textContent = char
-    textArea.appendChild(span)
-  }
-  chars = textArea.children
-}
+        timerDisplay.textContent = timeLeft
+        wpmDisplay.textContent = 0
+        accuracyDisplay.textContent = "0%"
+        personalBestDisplay.textContent =
+            personalBest[level] ? `${personalBest[level]} WPM` : "-- WPM"
 
-// ---------------- TIMER ----------------
-let timeInterval = null
-function startTimer() {
-  timeInterval = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timeInterval)
-      endTest()
-      return
+        userInput.value = ""
+        userInput.focus() // Mobile keyboard pops up
     }
-    timeLeft--
-    timerDisplay.textContent = timeLeft
-  }, 1000)
-}
 
-// ---------------- ACCURACY ----------------
-function updateAccuracy() {
-  const accuracy = totalTypedChars === 0
-    ? 0
-    : Math.round((correctChars / totalTypedChars) * 100)
-  accuracyDisplay.textContent = `${accuracy}%`
-}
+    // ---------------- RENDER PASSAGE ----------------
+    function renderPassage() {
+        textArea.innerHTML = ""
+        for (const char of currentPassage) {
+            const span = document.createElement("span")
+            span.textContent = char
+            textArea.appendChild(span)
+        }
+        chars = textArea.children
+    }
 
-// ---------------- END TEST ----------------
-function endTest() {
-  if (testEnded) return
-  testEnded = true
-  clearInterval(timeInterval)
+    // ---------------- TIMER ----------------
+    let timeInterval = null
+    function startTimer() {
+        timeInterval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timeInterval)
+                endTest()
+                return
+            }
+            timeLeft--
+            timerDisplay.textContent = timeLeft
+        }, 1000)
+    }
 
-  const minutes = (60 - timeLeft) / 60
-  const wpm = minutes > 0 ? Math.round((correctChars / 5) / minutes) : 0
-  const accuracy = totalTypedChars === 0
-    ? 0
-    : Math.round((correctChars / totalTypedChars) * 100)
+    // ---------------- ACCURACY ----------------
+    function updateAccuracy() {
+        const accuracy = totalTypedChars === 0
+            ? 0
+            : Math.round((correctChars / totalTypedChars) * 100)
+        accuracyDisplay.textContent = `${accuracy}%`
+    }
 
-  let isNewBest = false
-  if (personalBest[currentDifficulty] === null || wpm > personalBest[currentDifficulty]) {
-    personalBest[currentDifficulty] = wpm
-    localStorage.setItem("typingPersonalBest", JSON.stringify(personalBest))
-    isNewBest = true
-  }
+    // ---------------- END TEST ----------------
+    function endTest() {
+        if (testEnded) return
+        testEnded = true
+        clearInterval(timeInterval)
 
-  wpmDisplay.textContent = wpm
-  accuracyDisplay.textContent = `${accuracy}%`
-  personalBestDisplay.textContent = `${personalBest[currentDifficulty]} WPM`
+        const minutes = (60 - timeLeft) / 60
+        const wpm = minutes > 0 ? Math.round((correctChars / 5) / minutes) : 0
+        const accuracy = totalTypedChars === 0
+            ? 0
+            : Math.round((correctChars / totalTypedChars) * 100)
 
-  showResults(wpm, accuracy, isNewBest)
-}
+        let isNewBest = false
+        if (personalBest[currentDifficulty] === null || wpm > personalBest[currentDifficulty]) {
+            personalBest[currentDifficulty] = wpm
+            localStorage.setItem("typingPersonalBest", JSON.stringify(personalBest))
+            isNewBest = true
+        }
 
-// ---------------- RESULTS SCREEN ----------------
-function showResults(wpm, accuracy, isNewBest) {
-  textArea.innerHTML = `
-    <div class="results">
-      <h2>Test Complete 🎉</h2>
-      <p><strong>WPM:</strong> ${wpm}</p>
-      <p><strong>Accuracy:</strong> ${accuracy}%</p>
-      <p><strong>Personal Best:</strong> ${personalBest[currentDifficulty]} WPM</p>
-      ${isNewBest ? `<p class="congrats">🔥 New Personal Best!</p>` : ""}
-    </div>
-  `
-}
+        wpmDisplay.textContent = wpm
+        accuracyDisplay.textContent = `${accuracy}%`
+        personalBestDisplay.textContent = `${personalBest[currentDifficulty]} WPM`
 
-// ---------------- TYPING LOGIC ----------------
-document.addEventListener("keydown", (e) => {
-  if (!currentPassage || testEnded) return
+        showResults(wpm, accuracy, isNewBest)
+    }
 
-  if (e.key === " ") e.preventDefault()
-  if (timeLeft <= 0) return
-  if (currentIndex >= chars.length) return
-  if (e.key.length !== 1 && e.key !== "Backspace") return
+    // ---------------- RESULTS SCREEN ----------------
+    function showResults(wpm, accuracy, isNewBest) {
+        textArea.innerHTML = `
+            <div class="results">
+                <h2>Test Complete 🎉</h2>
+                <p><strong>WPM:</strong> ${wpm}</p>
+                <p><strong>Accuracy:</strong> ${accuracy}%</p>
+                <p><strong>Personal Best:</strong> ${personalBest[currentDifficulty]} WPM</p>
+                ${isNewBest ? `<p class="congrats">🔥 New Personal Best!</p>` : ""}
+            </div>
+        `
+    }
 
-  if (!timerStarted) {
-    startTimer()
-    timerStarted = true
-  }
+    // ---------------- TYPING LOGIC ----------------
+    userInput.addEventListener("input", (e) => {
+        if (!currentPassage || testEnded) return
+        const value = e.target.value
+        const char = value.slice(-1)
 
-  // BACKSPACE
-  if (e.key === "Backspace") {
-    if (currentIndex === 0) return
+        if (!timerStarted) {
+            startTimer()
+            timerStarted = true
+        }
 
-    chars[currentIndex].classList.remove("active")
-    currentIndex--
+        // BACKSPACE
+        if (value.length < currentIndex) {
+            if (currentIndex === 0) return
+            chars[currentIndex].classList.remove("active")
+            currentIndex--
+            if (chars[currentIndex].classList.contains("correct")) correctChars--
+            totalTypedChars--
+            chars[currentIndex].classList.remove("correct", "incorrect")
+            chars[currentIndex].classList.add("active")
+            updateAccuracy()
+            return
+        }
 
-    if (chars[currentIndex].classList.contains("correct")) correctChars--
-    totalTypedChars--
+        if (char === chars[currentIndex].textContent) {
+            chars[currentIndex].classList.add("correct")
+            correctChars++
+        } else {
+            chars[currentIndex].classList.add("incorrect")
+        }
 
-    chars[currentIndex].classList.remove("correct", "incorrect")
-    chars[currentIndex].classList.add("active")
-    updateAccuracy()
-    return
-  }
+        chars[currentIndex].classList.remove("active")
+        totalTypedChars++
+        updateAccuracy()
+        currentIndex++
 
-  // NORMAL CHAR
-  if (e.key === chars[currentIndex].textContent) {
-    chars[currentIndex].classList.add("correct")
-    correctChars++
-  } else {
-    chars[currentIndex].classList.add("incorrect")
-  }
+        if (currentIndex < chars.length) chars[currentIndex].classList.add("active")
 
-  chars[currentIndex].classList.remove("active")
-  totalTypedChars++
-  updateAccuracy()
-  currentIndex++
+        if (currentIndex >= chars.length) endTest()
+    })
 
-  if (currentIndex < chars.length) chars[currentIndex].classList.add("active")
-})
+    // ---------------- RESTART ----------------
+    restart.addEventListener("click", () => {
+        clearInterval(timeInterval)
+        testEnded = false
+        currentPassage = ""
+        currentDifficulty = null
 
-// ---------------- RESTART ----------------
-restart.addEventListener("click", () => {
-  clearInterval(timeInterval)
-  testEnded = false
-  currentPassage = ""
-  currentDifficulty = null
+        textArea.innerHTML = `
+            <h2>Ready?</h2>
+            <p>Select a difficulty to begin</p>
+        `
+        timerDisplay.textContent = 60
+        wpmDisplay.textContent = 0
+        accuracyDisplay.textContent = "0%"
+        userInput.value = ""
+        userInput.focus()
+    })
 
-  textArea.innerHTML = `
-    <h2>Ready?</h2>
-    <p>Select a difficulty to begin</p>
-  `
-  timerDisplay.textContent = 60
-  wpmDisplay.textContent = 0
-  accuracyDisplay.textContent = "0%"
-})
