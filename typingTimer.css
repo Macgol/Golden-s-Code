@@ -1,85 +1,135 @@
-body{
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(46, 45, 45);
-    color: white;
-}
-main{
-    width: 60%;
-    height: 80vh;
-    margin: 50px auto;
-    padding: 20px 40px;
-    background-color: rgb(90, 88, 88);
-    border-radius: 20px;
+/* ===== RESET & BASE ===== */
+* {
+  box-sizing: border-box;
 }
 
-/* header */
-.top-header{
-    display: flex;
-    justify-content: space-between;
-}
-.top-header h1{
-    font-weight: 500;
-}
-.top-header h4{
-    font-weight: 300;
-    opacity: 0.7;
-}
-.bottom-header{
-    display: flex;
-    justify-content: space-between;
-}
-.stats{
-    width: 50%;
-    display: flex;
-    gap: 5%;
-}
-.difficulty{
-    display: flex;
-    width: 50%;
-    justify-content: end;
-    align-items: center;
-    gap: 3%;
-}
-.difficulty-btn{
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-.difficulty-btn:hover{
-    background-color:  rgb(182, 174, 174);
-    color: white;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
+  color: #f5f5f5;
+  min-height: 100vh;
 }
 
-/* Text area */
-.text-area{
-    height: 50vh;
-    text-align: center;
-    opacity: 0.7;
+/* ===== MAIN CONTAINER ===== */
+main {
+  width: 60%;
+  max-width: 900px;
+  min-height: 80vh;
+  margin: 40px auto;
+  padding: 25px 35px;
+  background-color: #3a3a3a;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-.restart{
-    display: flex;
-    justify-content: center;
-}
-.restart button{
-     padding: 5px 10px;
-    border-radius: 5px;
-}
-.restart button:hover{
-     background-color:  rgb(182, 174, 174);
-    color: white;
-}
-.correct{
-    color: rgb(10, 240, 10);
-}
-.incorrect{
-    color: red;
-}
-.active{
-    border-bottom: 2px solid gray;
+/* ===== HEADER ===== */
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.top-header h1 {
+  font-weight: 500;
+  margin: 0;
+}
+
+.top-header h4 {
+  font-weight: 300;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.bottom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  gap: 15px;
+}
+
+/* ===== STATS ===== */
+.stats {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.stats span {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* ===== DIFFICULTY BUTTONS ===== */
+.difficulty {
+  display: flex;
+  gap: 10px;
+}
+
+.difficulty-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  background-color: #4a4a4a;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.difficulty-btn:hover {
+  background-color: #6b6b6b;
+  transform: translateY(-1px);
+}
+
+/* ===== TEXT AREA ===== */
+.text-area {
+  height: 50vh;
+  margin-top: 30px;
+  text-align: center;
+  line-height: 1.7;
+  font-size: 18px;
+  opacity: 0.85;
+  overflow-y: auto;
+}
+
+/* ===== CHARACTER STATES ===== */
+.correct {
+  color: #22c55e;
+}
+
+.incorrect {
+  color: #ef4444;
+}
+
+.active {
+  border-bottom: 2px solid #9ca3af;
+}
+
+/* ===== RESTART ===== */
+.restart {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.restart button {
+  padding: 8px 18px;
+  border-radius: 8px;
+  background-color: #4a4a4a;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.restart button:hover {
+  background-color: #6b6b6b;
+  transform: translateY(-1px);
+}
+
+/* ===== RESULTS SCREEN ===== */
 .results {
   text-align: center;
   animation: fadeInScale 0.5s ease forwards;
@@ -101,6 +151,7 @@ main{
   animation: pulse 1s infinite;
 }
 
+/* ===== ANIMATIONS ===== */
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -116,4 +167,48 @@ main{
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
+  main {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .top-header,
+  .bottom-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .stats {
+    gap: 15px;
+  }
+
+  .difficulty {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .text-area {
+    height: auto;
+    min-height: 35vh;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-area {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .difficulty-btn,
+  .restart button {
+    width: 100%;
+    text-align: center;
+  }
 }
