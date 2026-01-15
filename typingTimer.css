@@ -1,0 +1,119 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(46, 45, 45);
+    color: white;
+}
+main{
+    width: 60%;
+    height: 80vh;
+    margin: 50px auto;
+    padding: 20px 40px;
+    background-color: rgb(90, 88, 88);
+    border-radius: 20px;
+}
+
+/* header */
+.top-header{
+    display: flex;
+    justify-content: space-between;
+}
+.top-header h1{
+    font-weight: 500;
+}
+.top-header h4{
+    font-weight: 300;
+    opacity: 0.7;
+}
+.bottom-header{
+    display: flex;
+    justify-content: space-between;
+}
+.stats{
+    width: 50%;
+    display: flex;
+    gap: 5%;
+}
+.difficulty{
+    display: flex;
+    width: 50%;
+    justify-content: end;
+    align-items: center;
+    gap: 3%;
+}
+.difficulty-btn{
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.difficulty-btn:hover{
+    background-color:  rgb(182, 174, 174);
+    color: white;
+}
+
+/* Text area */
+.text-area{
+    height: 50vh;
+    text-align: center;
+    opacity: 0.7;
+}
+
+.restart{
+    display: flex;
+    justify-content: center;
+}
+.restart button{
+     padding: 5px 10px;
+    border-radius: 5px;
+}
+.restart button:hover{
+     background-color:  rgb(182, 174, 174);
+    color: white;
+}
+.correct{
+    color: rgb(10, 240, 10);
+}
+.incorrect{
+    color: red;
+}
+.active{
+    border-bottom: 2px solid gray;
+}
+
+.results {
+  text-align: center;
+  animation: fadeInScale 0.5s ease forwards;
+}
+
+.results h2 {
+  margin-bottom: 15px;
+}
+
+.results p {
+  margin: 8px 0;
+  font-size: 18px;
+}
+
+.new-best {
+  color: #22c55e;
+  font-weight: bold;
+  margin-top: 10px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
